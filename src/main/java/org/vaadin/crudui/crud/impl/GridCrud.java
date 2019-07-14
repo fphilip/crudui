@@ -9,6 +9,9 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.data.provider.Query;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.vaadin.crudui.crud.*;
 import org.vaadin.crudui.form.CrudFormFactory;
 import org.vaadin.crudui.form.impl.form.factory.DefaultCrudFormFactory;
@@ -17,21 +20,42 @@ import org.vaadin.crudui.layout.impl.WindowBasedCrudLayout;
 
 import java.util.Collection;
 
+import static lombok.AccessLevel.PROTECTED;
+
 /**
  * @author Alejandro Duarte
  */
 public class GridCrud<T> extends AbstractCrud<T> {
 
-    protected String rowCountCaption = "%d items(s) found";
-    protected String savedMessage = "Item saved";
-    protected String deletedMessage = "Item deleted";
-    protected boolean showNotifications = true;
+    @Getter(PROTECTED)
+    @Setter
+    private String rowCountCaption = "%d items(s) found";
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private String savedMessage = "Item saved";
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private String deletedMessage = "Item deleted";
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private boolean showNotifications = true;
 
-    protected Button findAllButton;
-    protected Button addButton;
-    protected Button updateButton;
-    protected Button deleteButton;
-    protected Grid<T> grid;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button findAllButton;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button addButton;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button updateButton;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button deleteButton;
+    @Getter
+    @Setter(PROTECTED)
+    private Grid<T> grid;
+
     private boolean autoCreateColumns;
 
     private boolean clickRowToUpdate;
@@ -45,7 +69,7 @@ public class GridCrud<T> extends AbstractCrud<T> {
     }
 
     public GridCrud(Class<T> domainType, CrudLayout crudLayout) {
-        this(domainType,true,  crudLayout);
+        this(domainType, true, crudLayout);
     }
 
     public GridCrud(Class<T> domainType, boolean autoCreateColumns, CrudLayout crudLayout) {
@@ -253,42 +277,6 @@ public class GridCrud<T> extends AbstractCrud<T> {
         });
         String caption = crudFormFactory.buildCaption(operation, domainObject);
         crudLayout.showForm(operation, form, caption);
-    }
-
-    public Grid<T> getGrid() {
-        return grid;
-    }
-
-    public Button getFindAllButton() {
-        return findAllButton;
-    }
-
-    public Button getAddButton() {
-        return addButton;
-    }
-
-    public Button getUpdateButton() {
-        return updateButton;
-    }
-
-    public Button getDeleteButton() {
-        return deleteButton;
-    }
-
-    public void setRowCountCaption(String rowCountCaption) {
-        this.rowCountCaption = rowCountCaption;
-    }
-
-    public void setSavedMessage(String savedMessage) {
-        this.savedMessage = savedMessage;
-    }
-
-    public void setDeletedMessage(String deletedMessage) {
-        this.deletedMessage = deletedMessage;
-    }
-
-    public void setShowNotifications(boolean showNotifications) {
-        this.showNotifications = showNotifications;
     }
 
     public void showNotification(String text) {
