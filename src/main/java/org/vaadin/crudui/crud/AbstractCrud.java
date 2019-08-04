@@ -55,7 +55,7 @@ public abstract class AbstractCrud<T> extends Composite<VerticalLayout> implemen
     }
 
     @Override
-    public void setFindAllOperation(DataProvider<T, Void> dataProvider) {
+    public void setFindAllOperation(DataProvider<T, ?> dataProvider) {
         this.findAllOperation = (LazyFindAllCrudOperationListener<T>) () -> dataProvider;
     }
 

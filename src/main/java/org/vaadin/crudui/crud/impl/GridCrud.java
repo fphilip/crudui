@@ -1,17 +1,5 @@
 package org.vaadin.crudui.crud.impl;
 
-import java.util.Collection;
-
-import org.vaadin.crudui.crud.AbstractCrud;
-import org.vaadin.crudui.crud.CrudListener;
-import org.vaadin.crudui.crud.CrudOperation;
-import org.vaadin.crudui.crud.CrudOperationException;
-import org.vaadin.crudui.crud.LazyFindAllCrudOperationListener;
-import org.vaadin.crudui.form.CrudFormFactory;
-import org.vaadin.crudui.form.impl.form.factory.DefaultCrudFormFactory;
-import org.vaadin.crudui.layout.CrudLayout;
-import org.vaadin.crudui.layout.impl.WindowBasedCrudLayout;
-
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
@@ -21,6 +9,13 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.data.provider.Query;
+import org.vaadin.crudui.crud.*;
+import org.vaadin.crudui.form.CrudFormFactory;
+import org.vaadin.crudui.form.impl.form.factory.DefaultCrudFormFactory;
+import org.vaadin.crudui.layout.CrudLayout;
+import org.vaadin.crudui.layout.impl.WindowBasedCrudLayout;
+
+import java.util.Collection;
 
 /**
  * @author Alejandro Duarte
@@ -37,15 +32,24 @@ public class GridCrud<T> extends AbstractCrud<T> {
     protected Button updateButton;
     protected Button deleteButton;
     protected Grid<T> grid;
+    private boolean autoCreateColumns;
 
     private boolean clickRowToUpdate;
 
     public GridCrud(Class<T> domainType) {
-        this(domainType, new WindowBasedCrudLayout(), new DefaultCrudFormFactory<>(domainType), null);
+        this(domainType, true);
+    }
+
+    public GridCrud(Class<T> domainType, boolean autoCreateColumns) {
+        this(domainType, autoCreateColumns, new WindowBasedCrudLayout(), new DefaultCrudFormFactory<>(domainType), null);
     }
 
     public GridCrud(Class<T> domainType, CrudLayout crudLayout) {
-        this(domainType, crudLayout, new DefaultCrudFormFactory<>(domainType), null);
+        this(domainType,true,  crudLayout);
+    }
+
+    public GridCrud(Class<T> domainType, boolean autoCreateColumns, CrudLayout crudLayout) {
+        this(domainType, autoCreateColumns, crudLayout, new DefaultCrudFormFactory<>(domainType), null);
     }
 
     public GridCrud(Class<T> domainType, CrudFormFactory<T> crudFormFactory) {
@@ -61,7 +65,16 @@ public class GridCrud<T> extends AbstractCrud<T> {
     }
 
     public GridCrud(Class<T> domainType, CrudLayout crudLayout, CrudFormFactory<T> crudFormFactory, CrudListener<T> crudListener) {
+        this(domainType, false, crudLayout, crudFormFactory, crudListener);
+    }
+
+    public GridCrud(Class<T> domainType,
+                    boolean autoCreateColumns,
+                    CrudLayout crudLayout,
+                    CrudFormFactory<T> crudFormFactory,
+                    CrudListener<T> crudListener) {
         super(domainType, crudLayout, crudFormFactory, crudListener);
+        this.autoCreateColumns = autoCreateColumns;
         initLayout();
     }
 
@@ -83,7 +96,7 @@ public class GridCrud<T> extends AbstractCrud<T> {
         deleteButton.getElement().setAttribute("title", "Delete");
         crudLayout.addToolbarComponent(deleteButton);
 
-        grid = new Grid<>(domainType);
+        grid = new Grid<>(domainType, autoCreateColumns);
         grid.setSizeFull();
         grid.addSelectionListener(e -> gridSelectionChanged());
         crudLayout.setMainComponent(grid);
@@ -151,7 +164,7 @@ public class GridCrud<T> extends AbstractCrud<T> {
                     grid.asSingleSelect().clear();
                 });
                 String caption = crudFormFactory.buildCaption(CrudOperation.READ, domainObject);
-				crudLayout.showForm(CrudOperation.READ, form, caption);
+                crudLayout.showForm(CrudOperation.READ, form, caption);
             }
         } else {
             crudLayout.hideForm();
