@@ -31,7 +31,10 @@ public interface Crud<T> {
 
     void setDeleteOperation(DeleteOperationListener<T> deleteOperation);
 
-    void setOperations(FindAllCrudOperationListener<T> findAllOperation, AddOperationListener<T> addOperation, UpdateOperationListener<T> updateOperation, DeleteOperationListener<T> deleteOperation);
+    void setOperations(FindAllCrudOperationListener<T> findAllOperation,
+                       AddOperationListener<T> addOperation,
+                       UpdateOperationListener<T> updateOperation,
+                       DeleteOperationListener<T> deleteOperation);
 
     void setCrudListener(CrudListener<T> crudListener);
 

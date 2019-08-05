@@ -9,43 +9,51 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.data.provider.Query;
-import org.vaadin.crudui.crud.*;
-import org.vaadin.crudui.form.CrudFormFactory;
-import org.vaadin.crudui.form.impl.form.factory.DefaultCrudFormFactory;
-import org.vaadin.crudui.layout.CrudLayout;
-import org.vaadin.crudui.layout.impl.WindowBasedCrudLayout;
-
-import java.util.Collection;
 
 /**
  * @author Alejandro Duarte
  */
 public class GridCrud<T> extends AbstractCrud<T> {
 
-    protected String rowCountCaption = "%d items(s) found";
-    protected String savedMessage = "Item saved";
-    protected String deletedMessage = "Item deleted";
-    protected boolean showNotifications = true;
+    @Getter(PROTECTED)
+    @Setter
+    private String rowCountCaption = "%d items(s) found";
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private String savedMessage = "Item saved";
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private String deletedMessage = "Item deleted";
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private boolean showNotifications = true;
 
-    protected Button findAllButton;
-    protected Button addButton;
-    protected Button updateButton;
-    protected Button deleteButton;
-    protected Grid<T> grid;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button findAllButton;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button addButton;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button updateButton;
+    @Getter(PROTECTED)
+    @Setter(PROTECTED)
+    private Button deleteButton;
+    @Getter
+    @Setter(PROTECTED)
+    private Grid<T> grid;
+
     private boolean autoCreateColumns;
 
     private boolean clickRowToUpdate;
 
     public GridCrud(Class<T> domainType) {
-        this(domainType, true);
-    }
-
-    public GridCrud(Class<T> domainType, boolean autoCreateColumns) {
-        this(domainType, autoCreateColumns, new WindowBasedCrudLayout(), new DefaultCrudFormFactory<>(domainType), null);
+        this(domainType, new WindowBasedCrudLayout(), new DefaultCrudFormFactory<>(domainType), null);
     }
 
     public GridCrud(Class<T> domainType, CrudLayout crudLayout) {
-        this(domainType,true,  crudLayout);
+        this(domainType, true, crudLayout);
     }
 
     public GridCrud(Class<T> domainType, boolean autoCreateColumns, CrudLayout crudLayout) {

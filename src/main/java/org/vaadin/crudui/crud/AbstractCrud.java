@@ -17,7 +17,7 @@ public abstract class AbstractCrud<T> extends Composite<VerticalLayout> implemen
 
     protected Class<T> domainType;
 
-    protected FindAllCrudOperationListener<T> findAllOperation = () -> Collections.emptyList();
+    protected FindAllCrudOperationListener<T> findAllOperation = Collections::emptyList;
     protected AddOperationListener<T> addOperation = t -> null;
     protected UpdateOperationListener<T> updateOperation = t -> null;
     protected DeleteOperationListener<T> deleteOperation = t -> { };
