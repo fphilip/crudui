@@ -9,6 +9,17 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.data.provider.Query;
+import lombok.Getter;
+import lombok.Setter;
+import org.vaadin.crudui.crud.*;
+import org.vaadin.crudui.form.CrudFormFactory;
+import org.vaadin.crudui.form.impl.form.factory.DefaultCrudFormFactory;
+import org.vaadin.crudui.layout.CrudLayout;
+import org.vaadin.crudui.layout.impl.WindowBasedCrudLayout;
+
+import java.util.Collection;
+
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author Alejandro Duarte
@@ -52,6 +63,10 @@ public class GridCrud<T> extends AbstractCrud<T> {
         this(domainType, new WindowBasedCrudLayout(), new DefaultCrudFormFactory<>(domainType), null);
     }
 
+    public GridCrud(Class<T> domainType, boolean autoCreateColumns) {
+        this(domainType, autoCreateColumns, new WindowBasedCrudLayout(), new DefaultCrudFormFactory<>(domainType), null);
+    }
+
     public GridCrud(Class<T> domainType, CrudLayout crudLayout) {
         this(domainType, true, crudLayout);
     }
@@ -75,6 +90,7 @@ public class GridCrud<T> extends AbstractCrud<T> {
     public GridCrud(Class<T> domainType, CrudLayout crudLayout, CrudFormFactory<T> crudFormFactory, CrudListener<T> crudListener) {
         this(domainType, false, crudLayout, crudFormFactory, crudListener);
     }
+
 
     public GridCrud(Class<T> domainType,
                     boolean autoCreateColumns,
