@@ -94,7 +94,7 @@ public abstract class AbstractCrud<T> extends Composite<VerticalLayout> implemen
         setDeleteOperation(crudListener::delete);
 
         if (LazyCrudListener.class.isAssignableFrom(crudListener.getClass())) {
-            setFindAllOperation((LazyFindAllCrudOperationListener<T>) () -> ((LazyCrudListener)crudListener).getDataProvider());
+            setFindAllOperation((LazyFindAllCrudOperationListener<T>) ((LazyCrudListener) crudListener)::getDataProvider);
         } else {
             setFindAllOperation(crudListener::findAll);
         }
